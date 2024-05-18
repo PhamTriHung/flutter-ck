@@ -1,4 +1,4 @@
-import 'package:ck/app_theme.dart';
+// import 'package:ck/app_theme.dart';
 import 'package:ck/folder/add_folder_dialog.dart';
 import 'package:ck/folder/classroom_tab_screen.dart';
 import 'package:ck/folder/course-tab-screen.dart';
@@ -6,6 +6,7 @@ import 'package:ck/folder/folder_tab_screen.dart';
 import 'package:ck/folder/new_class_screen.dart';
 import 'package:ck/folder/topics-tab-screen.dart';
 import 'package:flutter/material.dart';
+import 'package:ck/english_app/english_app_theme.dart';
 
 class FolderScreen extends StatefulWidget {
   const FolderScreen({super.key, this.animationController});
@@ -37,7 +38,7 @@ class _FolderScreenState extends State<FolderScreen>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: AppTheme.background,
+        // backgroundColor: AppTheme.background,
         title: const Text(
           'Thư viện',
           style: TextStyle(color: Colors.black),

@@ -44,6 +44,10 @@ class _TopicsTabScreenState extends State<TopicsTabScreen> {
                             PopupMenuItem<int>(
                               child: Text("View words"),
                               value: 3,
+                            ),
+                            PopupMenuItem<int>(
+                              child: Text("Add word"),
+                              value: 4,
                             )
                           ];
                         },
@@ -60,6 +64,9 @@ class _TopicsTabScreenState extends State<TopicsTabScreen> {
                               break;
                             case 3:
                               Navigator.pushNamed(context, '/list_word', arguments: ScreenArgument(course['courseId']));
+                              break;
+                            case 4:
+                              Navigator.pushNamed(context, '/add_word', arguments: ScreenArgument(course['courseId']));
                               break;
                           }
                         },

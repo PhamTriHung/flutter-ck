@@ -50,6 +50,7 @@ dependencies:
   line_awesome_flutter: ^2.0.0
   flutter_screenutil: ^5.9.0
   animated_theme_switcher: ^2.0.10
+  get: ^4.6.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

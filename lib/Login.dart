@@ -32,11 +32,13 @@ class _LoginPageState extends State<LoginPage> {
         a = false;
       });
       // Chuyển hướng đến màn hình chính
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => EnglishAppHomeScreen()),
-        (route) => false,
-      );
+      // Navigator.pushAndRemoveUntil(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => EnglishAppHomeScreen()),
+      //   (route) => false,
+      // );
+
+      Navigator.pushNamed(context, '/home');
 
       // Hiển thị thông báo thành công
       ScaffoldMessenger.of(context).showSnackBar(
