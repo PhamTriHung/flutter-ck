@@ -1,47 +1,38 @@
 import 'dart:math';
 
-import 'package:ck/model/answer.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../model/word.dart';
 
 class QuizNotifier extends ChangeNotifier {
   bool isCorrect = false;
-  bool isInitFinish = false;
   QuizNotifier() {
     randomAnswer();
     lstSelectedWord.shuffle();
   }
-  List<Word> lstSelectedWord = [
-    Word(firstLanguage: "dog", secondLanguage: "cho"),
-    Word(firstLanguage: "cat", secondLanguage: "meo"),
-    Word(firstLanguage: "chicken", secondLanguage: "ga"),
-    Word(firstLanguage: "dug", secondLanguage: "vit"),
+  List<Word> lstSelectedWord = [ Word(topic: "topic 1", firstLanguage: "dog", secondLanguage: "cho"),
+    Word(topic: "topic 1", firstLanguage: "cat", secondLanguage: "meo"),
+    Word(topic: "topic 1", firstLanguage: "chicken", secondLanguage: "ga"),
+    Word(topic: "topic 1", firstLanguage: "dug", secondLanguage: "vit"),
   ];
   int currQuestionIdx = 0;
   bool learningMode = false;
   late Word word = lstSelectedWord[0];
   late List<String> lstAnswer;
-  List<Answer> lstCorrectAnswer = [];
-  List<Answer> lstWrongAnswer = [];
-  FirebaseFirestore _db = FirebaseFirestore.instance;
+  List<Word> lstCorrectAnswer = [];
+  List<Word> lstWrongAnswer = [];
 
   randomAnswer() {
     Random random = Random();
     lstAnswer = [];
 
-    lstAnswer.add(learningMode
-        ? lstSelectedWord[currQuestionIdx].secondLanguage
-        : lstSelectedWord[currQuestionIdx].firstLanguage);
+    lstAnswer.add(learningMode ? lstSelectedWord[currQuestionIdx].secondLanguage : lstSelectedWord[currQuestionIdx].firstLanguage);
 
-    while (lstAnswer.length < 4) {
+    while(lstAnswer.length < 4) {
       var idx = random.nextInt(lstSelectedWord.length);
       var value = lstSelectedWord[idx];
-      if (!lstAnswer.contains(
-          learningMode ? value.secondLanguage : value.firstLanguage)) {
-        lstAnswer
-            .add(learningMode ? value.secondLanguage : value.firstLanguage);
+    if(!lstAnswer.contains(learningMode ? value.secondLanguage : value.firstLanguage)) {
+        lstAnswer.add(learningMode ? value.secondLanguage : value.firstLanguage);
       }
     }
 
@@ -49,24 +40,20 @@ class QuizNotifier extends ChangeNotifier {
   }
 
   handleAnswer(answer) {
-    var correctAnswer = learningMode ? word.secondLanguage : word.firstLanguage;
-    if (correctAnswer == answer) {
-      lstCorrectAnswer
-          .add(Answer(correctAnswer: correctAnswer, userAnswer: answer));
+    if(learningMode ? word.secondLanguage == answer : word.firstLanguage == answer) {
+      lstCorrectAnswer.add(word);
       isCorrect = true;
     } else {
-      lstWrongAnswer
-          .add(Answer(correctAnswer: correctAnswer, userAnswer: answer));
+      lstWrongAnswer.add(word);
       isCorrect = false;
     }
   }
 
   getNextQuestion() {
     currQuestionIdx += 1;
-    if (currQuestionIdx < lstSelectedWord.length) {
+    if(currQuestionIdx < lstSelectedWord.length) {
       word = lstSelectedWord[currQuestionIdx];
     }
-    randomAnswer();
     notifyListeners();
   }
 
@@ -80,29 +67,4 @@ class QuizNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  shuffleQuestion() {
-    currQuestionIdx = 0;
-    lstSelectedWord.shuffle();
-    word = lstSelectedWord[currQuestionIdx];
-    randomAnswer();
-    notifyListeners();
-  }
-
-  init(topicId) async {
-    CollectionReference collection = _db
-        .collection('Topics')
-        .doc(topicId)
-        .collection('Words');
-
-    QuerySnapshot snapshot = await collection.get();
-    if(!isInitFinish) {
-      snapshot.docs.forEach((doc) {
-        lstSelectedWord.add(
-            Word(firstLanguage: doc['english'], secondLanguage: doc['vietnamese'])
-        );
-      });
-    }
-    isInitFinish = true;
-    notifyListeners();
-  }
 }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
     "flutter": {
         "platforms": {
@@ -24,6 +23,3 @@
         }
     }
 }
-=======
-{"flutter":{"platforms":{"android":{"default":{"projectId":"elearn-c39c3","appId":"1:1001543475854:android:75e14c80f90798d8931fdf","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"elearn-c40c3","configurations":{"android":"1:1001543475854:android:75e14c80f90798d8931fdf","ios":"1:1001543475854:ios:e5e1998ca8e235b1931fdf","macos":"1:1001543475854:ios:e5e1998ca8e235b1931fdf","web":"1:1001543475854:web:3e854370e1e5b522931fdf","windows":"1:1001543475854:web:70c9c6a28785a7c5931fdf"}}}}}}
->>>>>>> be2ef0a78c65651c3497a55516d551ab17d9e3b2

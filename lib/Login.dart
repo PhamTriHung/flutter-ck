@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 8.0),
             TextButton(
               onPressed: () {
-                // Navigate to forgot password screen
+                Navigator.pushNamed(context, '/forgot');
               },
               child: Text('Forgot password?'),
             ),

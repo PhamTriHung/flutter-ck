@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:ck/enum/slide_direction.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../model/word.dart';
@@ -16,17 +15,15 @@ class FlashcardNotifier extends ChangeNotifier {
   bool learningMode = false;
   SlideDirection swipeDirection = SlideDirection.none;
   SlideDirection slideDirection = SlideDirection.none;
-  Word word1 = Word(firstLanguage: "", secondLanguage: "");
-  Word word2 = Word(firstLanguage: "", secondLanguage: "");
-  bool isInitFinish = false;
+  Word word1 = Word(topic: "topic 1", firstLanguage: "", secondLanguage: "");
+  Word word2 = Word(topic: "topic 1", firstLanguage: "", secondLanguage: "");
   late Timer autoTimer;
-  FirebaseFirestore _db = FirebaseFirestore.instance;
 
   List<Word> lstSelectedWord = [
-    Word(firstLanguage: "dog", secondLanguage: "cho"),
-    Word(firstLanguage: "cat", secondLanguage: "meo"),
-    Word(firstLanguage: "chicken", secondLanguage: "ga"),
-    Word(firstLanguage: "dug", secondLanguage: "vit"),
+    Word(topic: "topic 1", firstLanguage: "dog", secondLanguage: "cho"),
+    Word(topic: "topic 1", firstLanguage: "cat", secondLanguage: "meo"),
+    Word(topic: "topic 1", firstLanguage: "chicken", secondLanguage: "ga"),
+    Word(topic: "topic 1", firstLanguage: "dug", secondLanguage: "vit"),
   ];
   int intTotalListLength = 0;
   int currWordIdx = 0;
@@ -150,25 +147,6 @@ class FlashcardNotifier extends ChangeNotifier {
 
   switchLearningMode() {
     learningMode = !learningMode;
-    notifyListeners();
-  }
-
-  init(topicId) async {
-    CollectionReference collection = _db
-        .collection('Topics')
-        .doc(topicId)
-        .collection('Words');
-
-    QuerySnapshot snapshot = await collection.get();
-    int i = 0;
-    if(!isInitFinish) {
-      snapshot.docs.forEach((doc) {
-        lstSelectedWord.add(
-            Word(firstLanguage: doc['english'], secondLanguage: doc['vietnamese'])
-        );
-      });
-    }
-    isInitFinish = true;
     notifyListeners();
   }
 }

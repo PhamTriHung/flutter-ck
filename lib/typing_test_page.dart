@@ -1,9 +1,7 @@
-import 'package:ck/ScreenArgument.dart';
+import 'package:ck/animations/scale_animation.dart';
 import 'package:ck/notifiers/typing_test_notifier.dart';
 import 'package:ck/result_bottom_modal.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 
 class TypingPage extends StatefulWidget {
@@ -14,26 +12,11 @@ class TypingPage extends StatefulWidget {
 }
 
 class _TypingPageState extends State<TypingPage> {
-  FlutterTts flutterTts = FlutterTts();
   TextEditingController answerController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<void> speak(String text, String language) async {
-    await flutterTts.setLanguage(language);
-    await flutterTts.setPitch(1.0);
-    await flutterTts.setSpeechRate(0.8);
-    await flutterTts.speak(text);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<TypingTestNotifier>(builder: (_, notifier, __) {
-      final args = ModalRoute.of(context)!.settings.arguments as ScreenArgument;
-      notifier.init(args.topicId);
       return Scaffold(
         appBar: AppBar(),
         body: Padding(
@@ -94,32 +77,11 @@ class _TypingPageState extends State<TypingPage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 16),
-                        child: Row(
-                          children: [
-                            IconButton(onPressed: () {
-                              if(notifier.learningMode) {
-                                speak(notifier.word.secondLanguage, 'vi-VN');
-                              } else {
-                                speak(notifier.word.firstLanguage, 'en-US');
-                              }
-                            }, icon: Icon(Icons.speaker)),
-                            Spacer(),
-                            Text("en/vi"),
-                            Switch(
-                                onChanged: (value) {
-                                  notifier.switchLearningMode();
-                                },
-                                value: notifier.learningMode),
-                            IconButton(
-                                onPressed: () {
-                                  notifier.shuffleQuestion();
-                                },
-                                icon: Icon(Icons.shuffle))
-                          ],
-                        ),
-                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            notifier.switchLearningMode();
+                          },
+                          child: Text("Switch")),
                       Text("Question " +
                           (notifier.currQuestionIdx + 1).toString() +
                           "/" +

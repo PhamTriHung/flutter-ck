@@ -8,8 +8,6 @@ import 'package:ck/notifiers/flashcards_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'ScreenArgument.dart';
-
 class FlashcardPages extends StatefulWidget {
   const FlashcardPages({super.key});
 
@@ -26,7 +24,7 @@ class _FlashcardPagesState extends State<FlashcardPages> {
       flashcardsNotifier =
           Provider.of<FlashcardNotifier>(context, listen: false);
       flashcardsNotifier.runSlideCard1(direction: SlideDirection.rightIn);
-      if (flashcardsNotifier.isAuto) {
+      if(flashcardsNotifier.isAuto) {
         flashcardsNotifier.auto();
       }
     });
@@ -38,8 +36,6 @@ class _FlashcardPagesState extends State<FlashcardPages> {
     final size = MediaQuery.of(context).size;
 
     return Consumer<FlashcardNotifier>(builder: (_, notifier, __) {
-      final args = ModalRoute.of(context)!.settings.arguments as ScreenArgument;
-      notifier.init(args.topicId);
       return Scaffold(
         appBar: AppBar(),
         body: Padding(
@@ -48,68 +44,55 @@ class _FlashcardPagesState extends State<FlashcardPages> {
             child: IgnorePointer(
               ignoring: notifier.ignoreTouches,
               child: () {
-                if (notifier.currWordIdx >= notifier.lstSelectedWord.length) {
-                  return Text(
-                    "No more word",
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 56),
-                  );
-                } else {
-                  return Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 16),
-                        child: Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {}, icon: Icon(Icons.speaker)),
-                            Spacer(),
-                            Text("en/vi"),
-                            Switch(
-                                onChanged: (value) {
-                                  notifier.switchLearningMode();
-                                },
-                                value: notifier.learningMode),
-                            IconButton(
-                                onPressed: () {
-                                  notifier.shuffleLst();
-                                },
-                                icon: Icon(Icons.shuffle))
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          decoration: BoxDecoration(),
-                          height: 100,
-                          child: Text("viewing word: " +
-                              (notifier.currWordIdx + 1).toString() +
-                              "/" +
-                              notifier.lstSelectedWord.length.toString()),
-                        ),
-                        flex: 1,
-                      ),
-                      Expanded(
-                        flex: 8,
-                        child: Stack(
-                          children: [Card1(size: size), Card2(size: size)],
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: ElevatedButton(
-                            child: Text("test"),
-                            onPressed: () {
-                              notifier.runAuto(isAuto: !notifier.isAuto);
-                            },
-                          )),
-                        ],
-                      )
-                    ],
-                  );
+                if(notifier.currWordIdx >= notifier.lstSelectedWord.length) {
+                  return Text("No more word", style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 56
+                  ),);
                 }
-              }(),
+                return Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.bottomCenter,
+                        decoration: BoxDecoration(
+
+                        ),
+                        height: 100,
+                        child: Text("viewing word: " + (notifier.currWordIdx + 1).toString() + "/" + notifier.lstSelectedWord.length.toString()),
+                      ),
+                      flex: 1,
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: Stack(
+                        children: [Card1(size: size), Card2(size: size)],
+                      ),
+                    ),
+
+                    Row(
+                      children: [
+                        Expanded(
+                            child: ElevatedButton(child: Text("test"), onPressed: () {
+                              notifier.runAuto(isAuto: !notifier.isAuto);
+                            },)
+                        ),
+                        Expanded(
+                            child: ElevatedButton(child: Text("Shuffle"), onPressed: () {
+                              notifier.shuffleLst();
+                            },)
+                        ),
+                        Expanded(
+                            child: ElevatedButton(child: Text("Switch"), onPressed: () {
+                              notifier.switchLearningMode();
+                            },)
+                        ),
+
+                      ],
+                    )
+                  ],
+                );
+              } (),
             ),
           ),
         ),

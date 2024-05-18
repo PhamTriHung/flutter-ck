@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:ck/animations/half_flip_animation.dart';
 import 'package:ck/animations/slide_animation.dart';
 import 'package:ck/enum/slide_direction.dart';
-import 'package:ck/flashcards_page/tts_button.dart';
 import 'package:ck/notifiers/flashcards_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,20 +47,11 @@ class Card1 extends StatelessWidget {
                 height: size.height * 0.6,
                 width: size.width * 0.8,
                 child: Center(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            notifier.learningMode
-                                ? notifier.word1.firstLanguage
-                                : notifier.word1.secondLanguage,
-                            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
-                          ),
-                        ),
-                      ),
-                      TTSButton(),
-                    ],
+                  child: Text(
+                    notifier.learningMode
+                        ? notifier.word1.firstLanguage
+                        : notifier.word1.secondLanguage,
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
                   ),
                 ),
               ),
