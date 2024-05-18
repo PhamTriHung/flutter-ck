@@ -11,17 +11,17 @@ class WordNotifier extends ChangeNotifier {
 
   WordNotifier () {
     isInitFinish = false;
+    lstWord = [];
   }
 
   init(topicId) async {
-    lstWord = [];
     topicId = topicId;
     CollectionReference collection =
         _db.collection('Topics').doc(topicId).collection('Words');
 
     QuerySnapshot snapshot = await collection.get();
 
-    // if (!isInitFinish) {
+    if (!isInitFinish) {
       snapshot.docs.forEach((doc) {
         lstWord.add(WordModel(
           wordId: doc.id,
@@ -31,7 +31,7 @@ class WordNotifier extends ChangeNotifier {
             pronunciation: doc['pronunciation'],
             vietnamese: doc['vietnamese']));
       });
-    // }
+    }
     isInitFinish = true;
     notifyListeners();
   }

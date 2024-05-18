@@ -35,6 +35,8 @@ class _ListWordPageState extends State<ListWordPage> {
                           subtitle: Text(notifider.lstWord[index].vietnamese),
                           trailing: IconButton(icon: Icon(Icons.delete), onPressed: () {
                             notifider.deleteWord(notifider.lstWord[index].wordId);
+                            notifider.isInitFinish = false;
+                            notifider.lstWord = [];
                           },),
                         ),
                       );
